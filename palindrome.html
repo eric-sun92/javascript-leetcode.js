@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      //palindrome
+      var isPalindrome = function (x) {
+        let array = Array.from(x.toString(), Number);
+        console.log(array);
+        let ans = true;
+        let temp;
+        for (let i = 0; i < Math.floor(array.length / 2); i++) {
+          if (array[i] !== array[array.length - i - 1]) {
+            temp = false;
+          } else {
+            temp = true;
+          }
+          ans = ans && temp;
+        }
+        return ans;
+      };
+
+      //console.log(isPalindrome(121));
+
+      //roman to int (13)
+
+      var romanToInt = function (s) {
+        let ans = 0;
+        let object = {
+          I: 1,
+          V: 5,
+          X: 10,
+          L: 50,
+          C: 100,
+          D: 500,
+          M: 1000,
+        };
+
+        let objectKeys = Object.keys(object);
+        console.log(typeof objectKeys);
+
+        console.log(objectKeys);
+        for (let i = 0; i < s.length; i++) {
+          let key = s.charAt(i);
+          let nextKey = s.charAt(i + 1);
+          let value = object[key];
+
+          let valueIndex = objectKeys.findIndex((elem) => {
+            return elem === key;
+          });
+          if (
+            nextKey === objectKeys[valueIndex + 1] ||
+            nextKey === objectKeys[valueIndex + 2]
+          ) {
+            console.log("here");
+            ans = ans - value;
+          } else {
+            console.log(valueIndex);
+            ans = ans + value;
+          }
+        }
+        return ans;
+      };
+
+      console.log(romanToInt("XII"));
+
+      //longest common prefix (14)
+
+      var longestCommonPrefix = function (strs) {
+        console.log("LONGEST PREFIX STARTS HERE");
+        let length = strs[0].length;
+        console.log(length);
+        let ans = "";
+        let currentLetter;
+        let doChange;
+        for (let i = 0; i < length; i++) {
+          currentLetter = strs[0].charAt(i);
+          doChange = strs.every((str) => {
+            return str.charAt(i) === currentLetter;
+          });
+          if (doChange) {
+            ans = ans + currentLetter;
+          } else {
+            break;
+          }
+        }
+        return ans;
+      };
+
+      console.log(longestCommonPrefix(["cir", "car"]));
+
+      // valid parentheses (20)
+
+      var isValid = function (s) {
+        console.log("VALID PARENTHESES START HERE");
+        let open1 = 0;
+        let open2 = 0;
+        let open3 = 0;
+        let correctOrder = true;
+        let closingTag = [];
+
+        for (let i = 0; i < s.length; i++) {
+          switch (true) {
+            case s.charAt(i) === "(":
+              console.log("here");
+
+              closingTag.unshift(")");
+              console.log(closingTag);
+              open1++;
+              break;
+            case s.charAt(i) === "[":
+              closingTag.unshift("]");
+              console.log(closingTag);
+              open2++;
+              break;
+            case s.charAt(i) === "{":
+              closingTag.unshift("}");
+              open3++;
+              break;
+            case s.charAt(i) === ")":
+              if (closingTag[0] === ")") {
+                closingTag.shift();
+              } else {
+                correctOrder = false;
+              }
+              open1--;
+              break;
+            case s.charAt(i) === "]":
+              if (closingTag[0] === "]") {
+                closingTag.shift();
+              } else {
+                correctOrder = false;
+              }
+              open2--;
+              break;
+            case s.charAt(i) === "}":
+              if (closingTag[0] === "}") {
+                closingTag.shift();
+              } else {
+                correctOrder = false;
+              }
+              open3--;
+              break;
+          }
+        }
+        let ans = open1 === 0 && open2 === 0 && open3 === 0 && correctOrder;
+
+        return ans;
+      };
+
+      console.log(isValid("("));
+
+      //merge two linked lists
+      function Node(val) {
+        this.val = val;
+        this.next = null;
+      }
+      var mergeTwoLists = function (list1, list2) {
+        let result = new ListNode(0);
+        let currentNode = result;
+        if (list1 === null && list2 === null) {
+          return result.next;
+        } else {
+          while (list1 !== null && list2 !== null) {
+            if (list1.val <= list2.val) {
+              currentNode.next = new ListNode(list1.val);
+              currentNode = currentNode.next;
+              if (list1.next !== null) {
+                list1 = list1.next;
+              } else {
+                while (list2 !== null) {
+                  currentNode.next = new ListNode(list2.val);
+                  currentNode = currentNode.next;
+                  list2 = list2.next;
+                }
+                return result.next;
+              }
+            } else {
+              currentNode.next = new ListNode(list2.val);
+              currentNode = currentNode.next;
+              if (list2.next !== null) {
+                list2 = list2.next;
+              } else {
+                while (list1 !== null) {
+                  currentNode.next = new ListNode(list1.val);
+                  currentNode = currentNode.next;
+                  list1 = list1.next;
+                }
+                return result.next;
+              }
+            }
+          }
+        }
+      };
+
+      var removeDuplicates = function (nums) {
+        var len = nums.length;
+        var tail = 0;
+        for (var i = 1; i < len; i++) {
+          if (nums[i] > nums[tail]) {
+            nums[++tail] = nums[i];
+          }
+          console.log(nums);
+        }
+        nums.length = tail + 1;
+        return len;
+      };
+
+      removeDuplicates([1, 2, 2, 3]);
+    </script>
+  </head>
+  <body></body>
+</html>
